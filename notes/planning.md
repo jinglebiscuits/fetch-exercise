@@ -11,11 +11,11 @@ Final result should be an easy to read list.
 
 - I'll use Kotlin and Compose.
 - MVI architecture because I've never gone full in on that before.
-- Use Hilt for dependency injection
 - Get some tests setup
   - test that null/blank names are filtered out
 - follow https://developer.android.com/topic/architecture as closely as possible
 
 ## Stretch Goals
-- support dark mode
+- support dark mode (free with material theme unless I get nutty with custom theming)
 - account for no network
+- Use Hilt for dependency injection

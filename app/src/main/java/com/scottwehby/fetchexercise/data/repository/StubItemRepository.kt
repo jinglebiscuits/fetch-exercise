@@ -1,10 +1,6 @@
 package com.scottwehby.fetchexercise.data.repository
 
 import com.scottwehby.fetchexercise.data.model.Group
-import com.scottwehby.fetchexercise.data.model.ItemDto
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 class StubItemRepository(
     private val itemDataProcessor: ItemDataProcessor = ItemDataProcessor()
@@ -43,14 +39,7 @@ class StubItemRepository(
     """.trimIndent()
 
     override suspend fun getGroupedItems(): Result<List<Group>> = runCatching {
-        val moshi: Moshi = Moshi.Builder()
-            .addLast(KotlinJsonAdapterFactory()).build()
-
-
-        val type = Types.newParameterizedType(List::class.java, ItemDto::class.java)
-        val jsonAdapter = moshi.adapter<List<ItemDto>>(type)
-        val itemsDto: List<ItemDto> =
-            jsonAdapter.fromJson(sampleData) ?: throw Exception("Failed to parse JSON")
+        val itemsDto = MoshiProvider.parseJson(sampleData)
         itemDataProcessor.processData(itemsDto)
     }
 }

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.scottwehby.fetchexercise.data.repository.StubItemRepository
+import com.scottwehby.fetchexercise.data.repository.RemoteItemRepository
 import com.scottwehby.fetchexercise.ui.screens.MainScreen
 import com.scottwehby.fetchexercise.ui.theme.FetchExerciseTheme
 import com.scottwehby.fetchexercise.ui.vm.MainViewModel
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     private val vm: MainViewModel by viewModels {
-        MainViewModelFactory(StubItemRepository())
+        MainViewModelFactory(RemoteItemRepository())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

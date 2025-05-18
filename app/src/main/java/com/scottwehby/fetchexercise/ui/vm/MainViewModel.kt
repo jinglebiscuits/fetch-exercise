@@ -37,6 +37,7 @@ class MainViewModel(private val itemRepository: ItemRepository) : ViewModel() {
     }
 
     private suspend fun fetchItems() {
+        _state.value = UiState.Loading
         itemRepository.getGroupedItems()
             .onSuccess { items ->
                 _state.value = UiState.Success(items)
