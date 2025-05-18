@@ -1,0 +1,62 @@
+package com.scottwehby.fetchexercise.data.repository
+
+import com.scottwehby.fetchexercise.data.model.Item
+import com.scottwehby.fetchexercise.data.model.ItemDto
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+
+class StubItemRepository : ItemRepository {
+
+    private val sampleData = """
+        [
+        {"id": 755, "listId": 2, "name": ""},
+        {"id": 203, "listId": 2, "name": ""},
+        {"id": 684, "listId": 1, "name": "Item 684"},
+        {"id": 276, "listId": 1, "name": "Item 276"},
+        {"id": 736, "listId": 3, "name": null},
+        {"id": 926, "listId": 4, "name": null},
+        {"id": 808, "listId": 4, "name": "Item 808"},
+        {"id": 599, "listId": 1, "name": null},
+        {"id": 424, "listId": 2, "name": null},
+        {"id": 444, "listId": 1, "name": ""},
+        {"id": 809, "listId": 3, "name": null},
+        {"id": 293, "listId": 2, "name": null},
+        {"id": 510, "listId": 2, "name": null},
+        {"id": 680, "listId": 3, "name": "Item 680"},
+        {"id": 231, "listId": 2, "name": null},
+        {"id": 534, "listId": 4, "name": "Item 534"},
+        {"id": 294, "listId": 4, "name": ""},
+        {"id": 439, "listId": 1, "name": null},
+        {"id": 156, "listId": 2, "name": null},
+        {"id": 906, "listId": 2, "name": "Item 906"},
+        {"id": 49, "listId": 2, "name": null},
+        {"id": 48, "listId": 2, "name": null},
+        {"id": 735, "listId": 1, "name": "Item 735"},
+        {"id": 52, "listId": 2, "name": ""},
+        {"id": 681, "listId": 4, "name": "Item 681"},
+        {"id": 137, "listId": 3, "name": "Item 137"}
+        ]
+    """.trimIndent()
+
+    override suspend fun getGroupedItems(): Result<Map<Int, List<Item>>> = runCatching {
+        val moshi: Moshi = Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory()).build()
+
+
+        val type = Types.newParameterizedType(List::class.java, ItemDto::class.java)
+        val jsonAdapter = moshi.adapter<List<ItemDto>>(type)
+        val itemsDto: List<ItemDto> = jsonAdapter.fromJson(sampleData)?: throw Exception("Failed to parse JSON")
+        itemsDto
+            .filter { dto ->
+                dto.id != null && dto.listId != null && !dto.name.isNullOrBlank()
+            }
+            .map { dto ->
+                Item(
+                    id = dto.id!!,
+                    listId = dto.listId!!,
+                    name = dto.name!!
+                )
+            }.groupBy { it.listId }
+    }
+}

@@ -14,6 +14,7 @@ Final result should be an easy to read list.
 - Use Hilt for dependency injection
 - Get some tests setup
   - test that null/blank names are filtered out
+- follow https://developer.android.com/topic/architecture as closely as possible
 
 ## Stretch Goals
 - support dark mode

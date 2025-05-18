@@ -1,4 +1,4 @@
-package com.scottwehby.fetchexercise
+package com.scottwehby.fetchexercise.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
