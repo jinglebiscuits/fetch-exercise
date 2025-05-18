@@ -11,6 +11,9 @@ Final result should be an easy to read list.
 
 - I'll use Kotlin and Compose.
 - MVI architecture because I've never gone full in on that before.
+- Use Hilt for dependency injection
+- Get some tests setup
+  - test that null/blank names are filtered out
 
 ## Stretch Goals
 - support dark mode
