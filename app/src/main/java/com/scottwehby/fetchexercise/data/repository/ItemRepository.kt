@@ -1,7 +1,7 @@
 package com.scottwehby.fetchexercise.data.repository
 
-import com.scottwehby.fetchexercise.data.model.Item
+import com.scottwehby.fetchexercise.data.model.Group
 
 interface ItemRepository {
-    suspend fun getGroupedItems(): Result<Map<Int, List<Item>>>
+    suspend fun getGroupedItems(): Result<List<Group>>
 }

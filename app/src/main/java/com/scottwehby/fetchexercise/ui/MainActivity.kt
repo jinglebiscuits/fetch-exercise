@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                         }
                         is UiState.Success -> {
                             Item(
-                                state.groupedItems.values.first()[0],
+                                state.groupedItems.first().items.first(),
                                 modifier = Modifier.padding(innerPadding)
                             )
                         }
