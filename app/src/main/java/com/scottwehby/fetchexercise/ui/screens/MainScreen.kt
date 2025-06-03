@@ -59,7 +59,8 @@ fun MainScreen(
                         vm.sendIntent(UiIntent.Retry)
                     }
                 },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                delete = vm::deleteItem
             )
         }
     }
@@ -96,20 +97,21 @@ fun NoNetworkScreen(modifier: Modifier = Modifier, onRetry: () -> Unit) {
 private fun SuccessScreen(
     groups: List<Group>,
     onRefresh: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    delete: (item: Item) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
         items(groups) { group ->
-            GroupRow(group = group)
+            GroupRow(group = group, delete)
         }
     }
 }
 
 @Composable
-private fun GroupRow(group: Group) {
+private fun GroupRow(group: Group, delete: (item: Item) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -126,16 +128,19 @@ private fun GroupRow(group: Group) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(group.items) { item ->
-                ItemCard(item = item)
+                ItemCard(item = item, delete)
             }
         }
     }
 }
 
 @Composable
-private fun ItemCard(item: Item) {
+private fun ItemCard(item: Item, delete: (item: Item) -> Unit) {
     Card(
-        modifier = Modifier.size(72.dp)
+        modifier = Modifier.size(72.dp),
+        onClick = {
+            delete(item)
+        }
     ) {
         Box(Modifier.fillMaxSize()) {
             Text(
@@ -159,7 +164,7 @@ private fun ItemCard(item: Item) {
 @Preview
 @Composable
 private fun ItemCardPreview() {
-    ItemCard(Item(1, 1, "Item 1"))
+    ItemCard(Item(1, 1, "Item 1"), {})
 }
 
 @Preview(showBackground = true)
@@ -172,6 +177,7 @@ private fun GroupRowPreview() {
                 Item(1, 1, "Item 1"),
                 Item(2, 1, "Item 2"),
             )
-        )
+        ),
+        {}
     )
 }

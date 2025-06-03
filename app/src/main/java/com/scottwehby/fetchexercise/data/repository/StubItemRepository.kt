@@ -1,6 +1,7 @@
 package com.scottwehby.fetchexercise.data.repository
 
 import com.scottwehby.fetchexercise.data.model.Group
+import com.scottwehby.fetchexercise.data.model.Item
 
 class StubItemRepository(
     private val itemDataProcessor: ItemDataProcessor = ItemDataProcessor()
@@ -41,5 +42,9 @@ class StubItemRepository(
     override suspend fun getGroupedItems(): Result<List<Group>> = runCatching {
         val itemsDto = MoshiProvider.parseJson(sampleData)
         itemDataProcessor.processData(itemsDto)
+    }
+
+    override suspend fun deleteItem(item: Item) {
+        TODO("Not yet implemented")
     }
 }

@@ -1,6 +1,7 @@
 package com.scottwehby.fetchexercise.data.repository
 
 import com.scottwehby.fetchexercise.data.model.Group
+import com.scottwehby.fetchexercise.data.model.Item
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
@@ -32,4 +33,8 @@ class RemoteItemRepository(
             }
         }
     }
-} 
+
+    override suspend fun deleteItem(item: Item) {
+
+    }
+}

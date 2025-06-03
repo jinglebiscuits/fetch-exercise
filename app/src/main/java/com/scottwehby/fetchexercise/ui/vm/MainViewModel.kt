@@ -3,6 +3,7 @@ package com.scottwehby.fetchexercise.ui.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.scottwehby.fetchexercise.data.model.Group
 import com.scottwehby.fetchexercise.data.model.Item
 import com.scottwehby.fetchexercise.data.repository.ItemRepository
 import kotlinx.coroutines.channels.Channel
@@ -25,6 +26,22 @@ class MainViewModel(private val itemRepository: ItemRepository) : ViewModel() {
 
     suspend fun sendIntent(intent: UiIntent) {
         _intents.send(intent)
+    }
+
+    fun deleteItem(item: Item) {
+        viewModelScope.launch {
+            itemRepository.deleteItem(item)
+        }
+        if (_state.value is UiState.Success) {
+            val newState = _state.value as UiState.Success
+            val groupedItems: MutableList<Group> = mutableListOf()
+            newState.groupedItems.forEach {
+                groupedItems.add(Group(it.listId, it.items.filter { list ->
+                    list.id != item.id
+                }))
+            }
+            _state.value = UiState.Success(groupedItems)
+        }
     }
 
     private suspend fun intentProcessor() {

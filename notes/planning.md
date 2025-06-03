@@ -19,3 +19,6 @@ Final result should be an easy to read list.
 - support dark mode (free with material theme unless I get nutty with custom theming)
 - account for no network
 - Use Hilt for dependency injection
+
+new feature: delete items
+- long clicking an item should show a confirmation dialog to delete the item.
